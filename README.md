@@ -1,5 +1,5 @@
-# GJK
-Implementation of GJK algorithm in 2D (WIP)
+# GJK/EPA
+Implementation of GJK (Gilbert–Johnson–Keerthi) and EPA (Expanding Polytope Algorithm) algorithm's in 2D (WIP)
 
 2D implementaiton of the [Gilbert–Johnson–Keerthi distance algorithm](https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm)
 
