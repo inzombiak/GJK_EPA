@@ -15,7 +15,12 @@ Implementation of GJK algorithm in 2D (WIP)
    * Space - Calculates if intersecting
    
 ## References:
-* Casey Muratori, "Implementing GJK" - [molleyrocket.com](https://mollyrocket.com/849)
+* GJK
+  * Casey Muratori, "Implementing GJK" - [molleyrocket.com](https://mollyrocket.com/849)
+  * Allen Chou, "Game Physics: Collision Detection – GJK" - [allenchou.net](http://allenchou.net/2013/12/game-physics-collision-detection-gjk/)
+* EPA
+  * EPA (Expanding Polytope Algorithm) - [http://www.dyn4j.org/](http://www.dyn4j.org/2010/05/epa-expanding-polytope-algorithm/ )
+  * Allen Chou, "Game Physics: Contact Generation – EPA" - [allenchou.net](http://allenchou.net/2013/12/game-physics-contact-generation-epa/)
 
 ## See Also:
 * [Minkowski sum calculator](https://github.com/inzombiak/MinkowskiSum)
