@@ -23,6 +23,8 @@ void ConvexShape::Draw(sf::RenderWindow& rw)
 
 	if (m_marked)
 		rw.draw(m_label);
+
+	//for (unsigned int i = 0; i < )
 }
 
 bool ConvexShape::ContainsPoint(const sf::Vector2f& point)
@@ -62,7 +64,7 @@ void ConvexShape::SetPosition(const sf::Vector2f& newPos)
 	m_shape.setPosition(oldPos + diff);
 	m_currentPosition += diff;
 	m_label.setPosition(m_currentPosition);
-}
+} 
 
 void ConvexShape::SetFillColor(const sf::Color& newColor)
 {

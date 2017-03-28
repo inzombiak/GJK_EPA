@@ -80,21 +80,6 @@ void GridManager::Draw(sf::RenderWindow& rw)
 	{
 		m_concaveShapes[i].Draw(rw);
 	}
-
-	int ceCount = m_convolutionEdges.size();
-	if (ceCount != 0)
-	{
-		sf::VertexArray va(sf::Lines, ceCount);
-		for (int i = 0; i < ceCount; ++i)
-		{
-			va[i].position = m_convolutionEdges[i] - ORIGIN_OFFSET;
-			va[i].color = sf::Color(rand() % 255, rand() % 255, rand() % 255);
-
-		}
-
-		rw.draw(va);
-	}
-	
 }
 
 void GridManager::AddVertex()
@@ -313,6 +298,28 @@ void GridManager::MarkShape(const sf::Vector2f& mousePos)
 	m_currentShape = NULL_SHAPE;
 }
 
+
+
+void GridManager::CalculateGJK()
+{
+	if (m_shapeA == NULL_SHAPE || m_shapeB == NULL_SHAPE)
+		return;
+	IShape *a, *b;
+
+	if (m_shapeA.second == Concave)
+		a = &m_concaveShapes[m_shapeA.first];
+	else
+		a = &m_convexShapes[m_shapeA.first];
+
+	if (m_shapeB.second == Concave)
+		b = &m_concaveShapes[m_shapeB.first];
+	else
+		b = &m_convexShapes[m_shapeB.first];
+
+
+
+	m_gjkCalc.CalculateGJKFull(a->GetVerticies(), b->GetVerticies());
+}
 
 bool GridManager::IsEar(const Node& n, const std::vector<Node>& nodes, const std::vector<sf::Vector2f>& vertices)
 {

@@ -30,6 +30,8 @@ public:
 	void ShowPointer(bool val);
 	void DeleteCurrentShape();
 
+	void CalculateGJK();
+
 private:
 
 	GJKCalculator m_gjkCalc;

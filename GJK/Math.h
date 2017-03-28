@@ -15,10 +15,13 @@ namespace sfmath
 	};
 
 	float Dot(const sf::Vector2f& v1, const sf::Vector2f& v2);
+	float Dot(const sf::Vector3f& v1, const sf::Vector3f& v2);
+
 	float Length(const sf::Vector2f& v);
 	float Length2(const sf::Vector2f& v);
 	float Cross(const sf::Vector2f& v1, const sf::Vector2f& v2);
 	float Angle(const sf::Vector2f& v1, const sf::Vector2f& v2);
+
 	bool LineLineIntersect(const sf::Vector2f vA, const sf::Vector2f vB, const sf::Vector2f uA, const sf::Vector2f uB, sf::Vector2f& intersectPoint);
 	bool RayLineIntersect(const Ray& ray, const sf::Vector2f a, const sf::Vector2f b);
 
@@ -26,6 +29,8 @@ namespace sfmath
 
 	bool SameSideOfLine(const sf::Vector2f& a, const sf::Vector2f& b, const sf::Vector2f& p1, const sf::Vector2f& p2);
 	bool PointInTriangle(const sf::Vector2f& p0, const sf::Vector2f& p1, const sf::Vector2f& p2, const sf::Vector2f& p);
+	bool SameDirection(const sf::Vector2f& a, const sf::Vector2f& b);
+	bool SameDirection(const sf::Vector3f& a, const sf::Vector3f& b);
 
 	bool IsReflex(const sf::Vector2f& p, const sf::Vector2f& prev, const sf::Vector2f& next, bool counterClockwise = true);
 	std::vector<sf::Vector2f> InvertShape(const std::vector<sf::Vector2f>& vertices, sf::Vector2f origin = sf::Vector2f(0.f, 0.f));
@@ -37,7 +42,7 @@ namespace sfmath
 			return (a.x < b.x) || (a.x == b.x && a.y < b.y);
 		}
 	};
-
+	sf::Vector2f Normalize(const sf::Vector2f& vec);
 }
 
 #endif

@@ -57,6 +57,8 @@ int main()
 				{
 					if (m_state == DrawingShape)
 						gm.CreateShape();
+					else
+						gm.CalculateGJK();
 				}
 				else if (event.key.code == sf::Keyboard::Delete || event.key.code == sf::Keyboard::BackSpace)
 				{

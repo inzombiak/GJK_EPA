@@ -9,12 +9,12 @@ class GJKCalculator
 public:
 	GJKCalculator();
 	
-	void CalculateGJKFull(const std::vector<sf::Vector2f> shapeA, const std::vector<sf::Vector2f> shapeB);
+	void CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, const std::vector<sf::Vector2f>& shapeB);
 	void Draw(sf::RenderWindow& rw);
 
 private:
-	sf::Vector2f GetSupportPoint(const std::vector<sf::Vector2f> vertices, const sf::Vector2f& dir);
-
+	sf::Vector2f GetSupportPoint(const std::vector<sf::Vector2f>& vertices, const sf::Vector2f& dir);
+	bool DoSimplex(sf::Vector2f (&simplex)[3], int& simplexCount, sf::Vector2f& dir);
 
 };
 

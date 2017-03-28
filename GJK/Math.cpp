@@ -4,6 +4,12 @@ float sfmath::Dot(const sf::Vector2f& v1, const sf::Vector2f& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y;
 }
+
+float sfmath::Dot(const sf::Vector3f& v1, const sf::Vector3f& v2)
+{
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
 float sfmath::Length2(const sf::Vector2f& v)
 {
 	return (v.x * v.x + v.y  * v.y);
@@ -159,4 +165,19 @@ int sfmath::Mod(int i, int base)
 float sfmath::Angle(const sf::Vector2f& v1, const sf::Vector2f& v2)
 {
 	return atan2(sfmath::Cross(v1, v2), sfmath::Dot(v1, v2));
+}
+
+sf::Vector2f sfmath::Normalize(const sf::Vector2f& vec)
+{
+	return vec / Length(vec);
+}
+
+bool sfmath::SameDirection(const sf::Vector2f& a, const sf::Vector2f& b)
+{
+	return (sfmath::Dot(a, b) > 0);
+}
+
+bool sfmath::SameDirection(const sf::Vector3f& a, const sf::Vector3f& b)
+{
+	return (sfmath::Dot(a, b) > 0);
 }
