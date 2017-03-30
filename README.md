@@ -3,6 +3,10 @@ Implementation of GJK (Gilbert–Johnson–Keerthi) and EPA (Expanding Polytope 
 
 2D implementaiton of the [Gilbert–Johnson–Keerthi distance algorithm](https://en.wikipedia.org/wiki/Gilbert%E2%80%93Johnson%E2%80%93Keerthi_distance_algorithm)
 
+Note: A lot of the functions are not optimized. I'll try to mark them at some point, but in general be aware that this is not an optimal implementation, just an implementation.
+
+Note 2: Have not added support for concave shapes, although you can draw them.
+
 ## Controls:
  * Q - switches between drawing and selecting mode. When drawing a little red dot will follow the cursor
  * Drawing Mode:
