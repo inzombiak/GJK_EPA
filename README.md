@@ -18,8 +18,9 @@ Note 2: Have not added support for concave shapes, although you can draw them.
    * Ctrl + Left Click - marks a shape. If 2 shapes are selected B replaces A and the new shape becomes B
    * Space - Calculates if intersecting
    
-## Requirements
-  * SFML for rendering
+## Build Requirements:
+SFML 2.4.2 for rendering
+
 ## References:
 * GJK
   * Casey Muratori, "Implementing GJK" - [molleyrocket.com](https://mollyrocket.com/849)
