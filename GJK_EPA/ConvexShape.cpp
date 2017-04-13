@@ -21,8 +21,8 @@ void ConvexShape::Draw(sf::RenderWindow& rw)
 	if (m_inUse)
 		rw.draw(m_shape);
 
-	if (m_marked)
-		rw.draw(m_label);
+	//if (m_marked)
+	//	rw.draw(m_label);
 
 	//for (unsigned int i = 0; i < )
 }

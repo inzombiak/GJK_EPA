@@ -3,18 +3,18 @@
 
 #include <SFML\Graphics.hpp>
 #include <vector>
+#include "Math.h"
 
 class GJKCalculator
 {
 public:
 	GJKCalculator();
 	
-	void CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, const std::vector<sf::Vector2f>& shapeB);
+	bool CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, const std::vector<sf::Vector2f>& shapeB, std::vector<sfmath::SupportPoint>& simplex);
 	void Draw(sf::RenderWindow& rw);
 
 private:
-	sf::Vector2f GetSupportPoint(const std::vector<sf::Vector2f>& vertices, const sf::Vector2f& dir);
-	bool DoSimplex(sf::Vector2f (&simplex)[3], int& simplexCount, sf::Vector2f& dir);
+	bool DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir);
 
 };
 

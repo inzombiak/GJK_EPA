@@ -80,6 +80,30 @@ void GridManager::Draw(sf::RenderWindow& rw)
 	{
 		m_concaveShapes[i].Draw(rw);
 	}
+
+	if (m_contactInfo.posA != m_contactInfo.posB)
+	{
+		sf::VertexArray lines(sf::Lines, 2);
+		lines[0].position = m_contactInfo.posA;
+		lines[1].position = m_contactInfo.posB;
+		lines[0].color = sf::Color::Red;
+		lines[1].color = sf::Color::Blue;
+		rw.draw(lines);
+	}
+	if (m_simplex.size() > 0)
+	{
+		sf::VertexArray lines(sf::LineStrip, m_simplex.size() + 1);
+		for (unsigned int i = 0; i < m_simplex.size(); ++i)
+		{
+			lines[i].position = ORIGIN_OFFSET + m_simplex[i].position;
+			lines[i].color = sf::Color::Magenta;
+		}
+		
+		lines[m_simplex.size()].position = ORIGIN_OFFSET + m_simplex[0].position;
+		lines[m_simplex.size()].color = sf::Color::Magenta;
+		rw.draw(lines);
+	}
+	
 }
 
 void GridManager::AddVertex()
@@ -315,10 +339,19 @@ void GridManager::CalculateGJK()
 		b = &m_concaveShapes[m_shapeB.first];
 	else
 		b = &m_convexShapes[m_shapeB.first];
+	
+	m_simplex.clear();
 
-
-
-	m_gjkCalc.CalculateGJKFull(a->GetVerticies(), b->GetVerticies());
+	if (m_gjkCalc.CalculateGJKFull(a->GetVerticies(), b->GetVerticies(), m_simplex))
+	{
+		m_contactInfo = m_epaCalc.GetContactInfo(a->GetVerticies(), b->GetVerticies(), m_simplex);
+	}
+	else
+	{
+		printf("NO INTERSECTION \n");
+		m_contactInfo.Reset(); 
+	}
+		
 }
 
 bool GridManager::IsEar(const Node& n, const std::vector<Node>& nodes, const std::vector<sf::Vector2f>& vertices)
@@ -552,5 +585,5 @@ void GridManager::DeleteShape(std::pair<int, ShapeType> shapeDeets)
 	}
 }
 
-const sf::Color GridManager::MARKED_A = sf::Color(255, 0, 0, 255);
-const sf::Color GridManager::MARKED_B = sf::Color(0, 255, 0, 255);
+const sf::Color GridManager::MARKED_A = sf::Color(125, 125, 0, 75);
+const sf::Color GridManager::MARKED_B = sf::Color(125, 125, 0, 75);

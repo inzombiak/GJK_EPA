@@ -52,8 +52,8 @@ void ConcaveShape::Draw(sf::RenderWindow& rw)
 	for (unsigned int i = 0; i < m_shapes.size(); ++i)
 		rw.draw(m_shapes[i]);
 
-	if (m_marked)
-		rw.draw(m_label);
+	//if (m_marked)
+	//	rw.draw(m_label);
 }
 
 bool ConcaveShape::ContainsPoint(const sf::Vector2f& point)

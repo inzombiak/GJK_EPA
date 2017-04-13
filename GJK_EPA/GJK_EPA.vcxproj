@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="ConcaveShape.cpp" />
     <ClCompile Include="ConvexShape.cpp" />
+    <ClCompile Include="EPACalculator.cpp" />
     <ClCompile Include="GJKCalculator.cpp" />
     <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="IShape.cpp" />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="ConcaveShape.h" />
     <ClInclude Include="ConvexShape.h" />
+    <ClInclude Include="EPACalculator.h" />
     <ClInclude Include="GJKCalculator.h" />
     <ClInclude Include="GridManager.h" />
     <ClInclude Include="IShape.h" />

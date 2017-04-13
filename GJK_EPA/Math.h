@@ -14,6 +14,14 @@ namespace sfmath
 		sf::Vector2f direction;
 	};
 
+	struct SupportPoint
+	{
+		sf::Vector2f position;
+		sf::Vector2f originA;
+		sf::Vector2f originB;
+		sf::Vector2f dir;
+	};
+
 	float Dot(const sf::Vector2f& v1, const sf::Vector2f& v2);
 	float Dot(const sf::Vector3f& v1, const sf::Vector3f& v2);
 
@@ -43,6 +51,9 @@ namespace sfmath
 		}
 	};
 	sf::Vector2f Normalize(const sf::Vector2f& vec);
+
+	SupportPoint GetSupportPoint(const std::vector<sf::Vector2f>& verticesA, const std::vector<sf::Vector2f>& verticiesB, const sf::Vector2f& dir);
+
 }
 
 #endif

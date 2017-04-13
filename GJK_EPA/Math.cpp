@@ -181,3 +181,37 @@ bool sfmath::SameDirection(const sf::Vector3f& a, const sf::Vector3f& b)
 {
 	return (sfmath::Dot(a, b) > 0);
 }
+
+sfmath::SupportPoint sfmath::GetSupportPoint(const std::vector<sf::Vector2f>& verticesA, const std::vector<sf::Vector2f>& verticesB, const sf::Vector2f& dir)
+{
+	sfmath::SupportPoint result;
+	result.dir = dir;
+
+	float max = -FLT_MAX;
+	float dot;
+
+	for (int i = 0; i < verticesA.size(); ++i)
+	{
+		dot = sfmath::Dot(dir, verticesA[i]);
+		if (dot > max)
+		{
+			max = dot;
+			result.originA = verticesA[i];
+		}
+	}
+
+	max = -FLT_MAX;
+	for (int i = 0; i < verticesB.size(); ++i)
+	{
+		dot = sfmath::Dot(-dir, verticesB[i]);
+		if (dot > max)
+		{
+			max = dot;
+			result.originB = verticesB[i];
+		}
+	}
+
+	result.position = result.originA - result.originB;
+
+	return result;
+}

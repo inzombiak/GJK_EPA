@@ -1,78 +1,81 @@
 #include "GJKCalculator.h"
-#include "Math.h"
+
 
 GJKCalculator::GJKCalculator()
 {
 }
 
 
-void GJKCalculator::CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, const std::vector<sf::Vector2f>& shapeB)
+bool GJKCalculator::CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, const std::vector<sf::Vector2f>& shapeB, std::vector<sfmath::SupportPoint>& simplexOut)
 {
 	sf::Vector2f dir;
-	sf::Vector2f nextSupportPoint;
+	sfmath::SupportPoint nextSupportPoint;
 
-	sf::Vector2f simplex[3];
-	int simplexIndex = 0;
+	std::vector<sfmath::SupportPoint> simplex;
 
 	//Init simplex
 	dir = shapeA[0];
-	nextSupportPoint = GetSupportPoint(shapeA, dir) - GetSupportPoint(shapeB, -dir);
-	simplex[simplexIndex] = nextSupportPoint;
-	simplexIndex++;
+	nextSupportPoint = sfmath::GetSupportPoint(shapeA, shapeB, dir);
+	simplex.push_back(nextSupportPoint);
+	
 
 	dir =  dir * -1.f;
 
+	bool intersection = false;
+
 	while (true)
 	{
-		nextSupportPoint = GetSupportPoint(shapeA, dir) - GetSupportPoint(shapeB, -dir);
+		nextSupportPoint = sfmath::GetSupportPoint(shapeA, shapeB, dir);
 		//No intersection
-		if (sfmath::Dot(nextSupportPoint, dir) <= 0)
+		if (sfmath::Dot(nextSupportPoint.position, dir) <= 0)
 		{
-			printf("NO INTERSECTION \n");
+			intersection = false;
 			break;
 		}
-		simplex[simplexIndex] = nextSupportPoint;
-		simplexIndex++;
-		if (DoSimplex(simplex, simplexIndex, dir))
+		simplex.push_back(nextSupportPoint);
+		if (DoSimplex(simplex, dir))
 		{
-			printf("INTERSECTION \n");
+			intersection = true;
 			break;
 		}
 	}
+
+	simplexOut = simplex;
+	return intersection;
 }
 
 
-bool GJKCalculator::DoSimplex(sf::Vector2f(&simplex)[3], int& simplexCount, sf::Vector2f& dir)
+bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir)
 {
 	sf::Vector3f newDir;
-	if (simplexCount == 1)
+	if (simplex.size() == 1)
 	{
 		//Vertex
-		dir = -simplex[0];
+		dir = -simplex[0].position;
 	}
-	else if (simplexCount == 2)
+	else if (simplex.size() == 2)
 	{
 		//Edge
-		sf::Vector2f ab = simplex[0] - simplex[1];
-		if (sfmath::SameDirection(ab, -simplex[1]))
+		sf::Vector2f ab = simplex[0].position - simplex[1].position;
+		if (sfmath::SameDirection(ab, -simplex[1].position))
 		{
-			newDir = sfmath::Cross3D(sfmath::Cross3D(sf::Vector3f(ab.x, ab.y, 0), -sf::Vector3f(simplex[1].x, simplex[1].y, 0)), sf::Vector3f(ab.x, ab.y, 0));
+			newDir = sfmath::Cross3D(sfmath::Cross3D(sf::Vector3f(ab.x, ab.y, 0), -sf::Vector3f(simplex[1].position.x, simplex[1].position.y, 0)), sf::Vector3f(ab.x, ab.y, 0));
 			dir.x = newDir.x;
 			dir.y = newDir.y;
 		}
 		else
 		{
-			dir = -simplex[1];
-			std::swap(simplex[1], simplex[0]);
-			simplexCount = 1;
+			dir = -simplex[1].position;
+			std::swap(simplex[1].position, simplex[0].position);
+			simplex.pop_back();
 		}
 	}
 	else
 	{
 		//Triangle
-		sf::Vector3f a = sf::Vector3f(simplex[2].x, simplex[2].y, 0);
-		sf::Vector3f b = sf::Vector3f(simplex[1].x, simplex[1].y, 0);
-		sf::Vector3f c = sf::Vector3f(simplex[0].x, simplex[0].y, 0);
+		sf::Vector3f a = sf::Vector3f(simplex[2].position.x, simplex[2].position.y, 0);
+		sf::Vector3f b = sf::Vector3f(simplex[1].position.x, simplex[1].position.y, 0);
+		sf::Vector3f c = sf::Vector3f(simplex[0].position.x, simplex[0].position.y, 0);
 
 		sf::Vector3f ac = c - a;
 		sf::Vector3f ab = b - a;
@@ -87,9 +90,9 @@ bool GJKCalculator::DoSimplex(sf::Vector2f(&simplex)[3], int& simplexCount, sf::
 				newDir = sfmath::Cross3D(sfmath::Cross3D(ac, -a), ac);
 				dir.x = newDir.x;
 				dir.y = newDir.y;
-				
-				simplexCount = 2;
+
 				std::swap(simplex[2], simplex[1]);
+				simplex.pop_back();
 			}
 			else
 			{
@@ -99,15 +102,16 @@ bool GJKCalculator::DoSimplex(sf::Vector2f(&simplex)[3], int& simplexCount, sf::
 					dir.x = newDir.x;
 					dir.y = newDir.y;
 
-					simplexCount = 2;
 					std::swap(simplex[1], simplex[0]);
 					std::swap(simplex[2], simplex[1]);
+					simplex.pop_back();
 				}
 				else
 				{
-					dir = -simplex[2];
+					dir = -simplex[2].position;
 					std::swap(simplex[2], simplex[0]);
-					simplexCount = 1;
+					simplex.pop_back();
+					simplex.pop_back();
 				}
 			}
 		}
@@ -122,15 +126,16 @@ bool GJKCalculator::DoSimplex(sf::Vector2f(&simplex)[3], int& simplexCount, sf::
 					dir.x = newDir.x;
 					dir.y = newDir.y;
 
-					simplexCount = 2;
 					std::swap(simplex[1], simplex[0]);
 					std::swap(simplex[2], simplex[1]);
+					simplex.pop_back();
 				}
 				else
 				{
-					dir = -simplex[2];
+					dir = -simplex[2].position;
 					std::swap(simplex[2], simplex[0]);
-					simplexCount = 1;
+					simplex.pop_back();
+					simplex.pop_back();
 				}
 			}
 			else
@@ -138,25 +143,4 @@ bool GJKCalculator::DoSimplex(sf::Vector2f(&simplex)[3], int& simplexCount, sf::
 		}
 	}
 	return false;
-}
-
-
-
-sf::Vector2f GJKCalculator::GetSupportPoint(const std::vector<sf::Vector2f>& vertices, const sf::Vector2f& dir)
-{
-	float max = -FLT_MAX;
-	sf::Vector2f result;
-	float dot;
-
-	for (int i = 0; i < vertices.size(); ++i)
-	{
-		dot = sfmath::Dot(dir, vertices[i]);
-		if (dot > max)
-		{
-			max = dot;
-			result = vertices[i];
-		}
-	}
-
-	return result;
 }

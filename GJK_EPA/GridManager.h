@@ -7,6 +7,7 @@
 #include "ConcaveShape.h"
 #include "ConvexShape.h"
 #include "GJKCalculator.h"
+#include "EPACalculator.h"
 
 class GridManager
 {
@@ -35,6 +36,9 @@ public:
 private:
 
 	GJKCalculator m_gjkCalc;
+	EPACalculator m_epaCalc;
+
+	ContactInfo m_contactInfo;
 
 	//TODO: Should asssign to a pointer not to m_currentShape(which should be a pointer)
 	bool GetShapeContainingPoint(const sf::Vector2f& point);
@@ -77,7 +81,7 @@ private:
 	std::vector<sf::CircleShape> m_shapeVertices;
 	bool m_shapeIsConcave = false;
 	
-
+	std::vector<sfmath::SupportPoint> m_simplex;
 
 	std::vector<ConvexShape> m_convexShapes;
 	std::vector<ConcaveShape> m_concaveShapes;
