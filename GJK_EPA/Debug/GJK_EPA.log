@@ -1,11 +1,9 @@
-﻿Build started 4/13/2017 8:00:17 PM.
+﻿Build started 4/20/2017 5:25:14 PM.
      1>Project "C:\Users\User\Documents\GitHub\GJK_EPA\GJK_EPA\GJK_EPA.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GJK.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Development Libraries\SFML-2.4.0\include" /ZI /nologo /W3 /WX- /Od /Oy- /D SFML_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt EPACalculator.cpp
-         EPACalculator.cpp
-     1>c:\users\user\documents\github\gjk_epa\gjk_epa\epacalculator.cpp(64): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\user\documents\github\gjk_epa\gjk_epa\epacalculator.cpp(90): warning C4018: '<' : signed/unsigned mismatch
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Development Libraries\SFML-2.4.0\include" /ZI /nologo /W3 /WX- /Od /Oy- /D SFML_STATIC /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt GJKCalculator.cpp
+         GJKCalculator.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\User\Documents\GitHub\GJK_EPA\Debug\GJK_EPA.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Development Libraries\glew-2.0.0\lib\Release\Win32" /LIBPATH:"C:\Development Libraries\SFML-2.4.0\lib" "sfml-graphics-s-d.lib" "sfml-system-s-d.lib" "sfml-window-s-d.lib" opengl32.lib glu32.lib glew32s.lib winmm.lib gdi32.lib jpeg.lib freetype.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\User\Documents\GitHub\GJK_EPA\Debug\GJK_EPA.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\User\Documents\GitHub\GJK_EPA\Debug\GJK_EPA.lib" /MACHINE:X86 Debug\ConcaveShape.obj
          Debug\ConvexShape.obj
@@ -20,4 +18,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.76
+Time Elapsed 00:00:01.34

@@ -14,8 +14,11 @@ public:
 	void Draw(sf::RenderWindow& rw);
 
 private:
+
 	bool DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir);
 
+	bool DoSimplexEdge(int aIndex, int bIndex, std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir);
+	bool DoSimplexTriangle(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir);
 };
 
 #endif

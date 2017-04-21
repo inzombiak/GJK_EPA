@@ -44,6 +44,39 @@ bool GJKCalculator::CalculateGJKFull(const std::vector<sf::Vector2f>& shapeA, co
 	return intersection;
 }
 
+bool GJKCalculator::DoSimplexEdge(int aIndex, int bIndex, std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir)
+{
+	sf::Vector3f newDir;
+	sfmath::SupportPoint a = simplex[aIndex];
+	sfmath::SupportPoint b = simplex[bIndex];
+	sf::Vector2f ab = b.position - a.position;
+	std::vector<sfmath::SupportPoint> newSimplex;
+	if (sfmath::SameDirection(ab, -a.position))
+	{
+		newDir = sfmath::Cross3D(sfmath::Cross3D(sf::Vector3f(ab.x, ab.y, 0), -sf::Vector3f(a.position.x, a.position.y, 0)), sf::Vector3f(ab.x, ab.y, 0));
+		dir.x = newDir.x;
+		dir.y = newDir.y;
+		
+		newSimplex.push_back(b);
+		newSimplex.push_back(a);
+		simplex = newSimplex;
+
+		return true;
+	}
+	else
+	{
+		dir = -a.position;
+		newSimplex.push_back(a);
+		simplex = newSimplex;
+
+		return false;
+	}
+}
+
+bool DoSimplexTriangle(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir)
+{
+	return false;
+}
 
 bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Vector2f& dir)
 {
@@ -56,19 +89,8 @@ bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Ve
 	else if (simplex.size() == 2)
 	{
 		//Edge
-		sf::Vector2f ab = simplex[0].position - simplex[1].position;
-		if (sfmath::SameDirection(ab, -simplex[1].position))
-		{
-			newDir = sfmath::Cross3D(sfmath::Cross3D(sf::Vector3f(ab.x, ab.y, 0), -sf::Vector3f(simplex[1].position.x, simplex[1].position.y, 0)), sf::Vector3f(ab.x, ab.y, 0));
-			dir.x = newDir.x;
-			dir.y = newDir.y;
-		}
-		else
-		{
-			dir = -simplex[1].position;
-			std::swap(simplex[1].position, simplex[0].position);
-			simplex.pop_back();
-		}
+		DoSimplexEdge(1, 0, simplex, dir);
+		
 	}
 	else
 	{
@@ -91,11 +113,15 @@ bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Ve
 				dir.x = newDir.x;
 				dir.y = newDir.y;
 
-				std::swap(simplex[2], simplex[1]);
+				std::swap(simplex[1], simplex[2]);
 				simplex.pop_back();
 			}
 			else
 			{
+
+				DoSimplexEdge(2, 1, simplex, dir);
+				/*
+				BETTER BUT MORE WORDY METHOD
 				if (sfmath::SameDirection(ab, -a))
 				{
 					newDir = sfmath::Cross3D(sfmath::Cross3D(ab, -a), ab);
@@ -113,6 +139,7 @@ bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Ve
 					simplex.pop_back();
 					simplex.pop_back();
 				}
+				*/
 			}
 		}
 		else
@@ -120,6 +147,8 @@ bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Ve
 			//If AB is closest to origin
 			if (sfmath::SameDirection(sfmath::Cross3D(ab, abc), -a))
 			{
+				DoSimplexEdge(2, 1, simplex, dir);
+				/*
 				if (sfmath::SameDirection(ab, -a))
 				{
 					newDir = sfmath::Cross3D(sfmath::Cross3D(ab, -a), ab);
@@ -136,7 +165,7 @@ bool GJKCalculator::DoSimplex(std::vector<sfmath::SupportPoint>& simplex, sf::Ve
 					std::swap(simplex[2], simplex[0]);
 					simplex.pop_back();
 					simplex.pop_back();
-				}
+				}*/
 			}
 			else
 				return true;
